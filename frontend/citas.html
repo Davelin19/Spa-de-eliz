@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Gestión de Citas</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .stats-card .stats-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stats-card .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Estilos para el texto del logo */
+        .brand-text {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <div class="text-center py-4">
+                        <img src="img/logo.png" alt="Armony Stetic Logo" class="img-fluid mb-2"
+                            style="max-width: 120px;">
+                        <h4 class="brand-text">Armony Stetic</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="clientes.html">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tratamientos.html">
+                                <i class="fas fa-spa"></i> Tratamientos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="citas.html">
+                                <i class="fas fa-calendar-alt"></i> Citas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reportes.html">
+                                <i class="fas fa-file-alt"></i> Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="facturas.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Facturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="administradores.html">
+                                <i class="fas fa-user-shield"></i> Administradores
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Citas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#citaModal">
+                            <i class="fas fa-plus"></i> Nueva Cita
+                        </button>
+                        <!-- User Menu -->
+                        <div class="d-flex align-items-center ml-3">
+                            <a href="#" class="btn btn-link mr-3" id="notificationsBtn">
+                                <i class="fas fa-bell"></i> Notificaciones
+                                <span class="badge badge-danger badge-pill ml-2" id="notificationCount">0</span>
+                            </a>
+                            <a href="#" class="btn btn-link" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas de Citas -->
+                <div class="row mb-4" id="citasStats">
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value" id="totalCitas">0</div>
+                                <div class="stats-label">Total de Citas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-success" id="citasActivas">0</div>
+                                <div class="stats-label">Citas Activas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-danger" id="citasInactivas">0</div>
+                                <div class="stats-label">Citas Inactivas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador por ID -->
+                <div class="mb-3">
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="number" class="form-control" id="buscarIdCita" placeholder="Buscar cita por ID">
+                        <button class="btn btn-info" id="btnBuscarIdCita" type="button">Buscar</button>
+                    </div>
+                </div>
+
+                <!-- Citas Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="citasTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Tratamiento</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Se llenará dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Cita Modal (Agregar) -->
+    <div class="modal fade" id="citaModal" tabindex="-1" role="dialog" aria-labelledby="citaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="citaModalLabel"><i class="fas fa-plus mr-2"></i>Nueva Cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="citaForm">
+                        <input type="hidden" id="id_cita">
+                        <div class="form-group">
+                            <label for="cliente">Cliente</label>
+                            <select class="form-control" id="cliente" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tratamiento">Tratamiento</label>
+                            <select class="form-control" id="tratamiento" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" class="form-control" id="fecha_cita" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hora">Hora</label>
+                            <input type="time" class="form-control" id="hora_cita" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea class="form-control" id="observaciones" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_empleada">Empleada</label>
+                            <select class="form-control" id="id_empleada" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="confirmada">Confirmada</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveCita">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cita Modal (Editar) -->
+    <div class="modal fade" id="editarCitaModal" tabindex="-1" role="dialog" aria-labelledby="editarCitaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-dark" id="editarCitaModalLabel"><i class="fas fa-edit mr-2"></i>Editar Cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarCitaForm">
+                        <input type="hidden" id="editar_id_cita">
+                        <div class="form-group">
+                            <label for="editar_cliente">Cliente</label>
+                            <select class="form-control" id="editar_cliente" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_tratamiento">Tratamiento</label>
+                            <select class="form-control" id="editar_tratamiento" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_fecha">Fecha</label>
+                            <input type="date" class="form-control" id="editar_fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_hora">Hora</label>
+                            <input type="time" class="form-control" id="editar_hora" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_estado">Estado</label>
+                            <select class="form-control" id="editar_estado" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="confirmada">Confirmada</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning text-dark" id="updateCita">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog"
+        aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="notificationsList">
+                        <!-- Las notificaciones se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="markAllRead">Marcar todas como leídas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Cita -->
+    <div class="modal fade" id="detalleCitaModal" tabindex="-1" role="dialog" aria-labelledby="detalleCitaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleCitaModalLabel">Detalles de la Cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>ID:</strong> <span id="detalle_id_cita"></span></li>
+                        <li class="list-group-item"><strong>Cliente:</strong> <span id="detalle_cliente"></span></li>
+                        <li class="list-group-item"><strong>Tratamiento:</strong> <span id="detalle_tratamiento"></span></li>
+                        <li class="list-group-item"><strong>Fecha:</strong> <span id="detalle_fecha"></span></li>
+                        <li class="list-group-item"><strong>Hora:</strong> <span id="detalle_hora"></span></li>
+                        <li class="list-group-item"><strong>Estado:</strong> <span id="detalle_estado"></span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tables.js"></script>
+    <script src="js/citas.js"></script>
+    <script src="js/utils/auth.js"></script>
+    <script type="module">
+        // Notificaciones
+        let notifications = [];
+
+        function loadNotifications() {
+            // Aquí cargarías las notificaciones desde tu backend
+            // Por ahora usaremos datos de ejemplo
+            notifications = [
+                { id: 1, message: 'Nueva cita programada para mañana', read: false, date: '2024-03-20 10:00' },
+                { id: 2, message: 'Recordatorio: Reunión de personal', read: false, date: '2024-03-20 09:00' }
+            ];
+            updateNotificationCount();
+            updateNotificationsList();
+        }
+
+        function updateNotificationCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            $('#notificationCount').text(unreadCount);
+        }
+
+        function updateNotificationsList() {
+            const list = $('#notificationsList');
+            list.empty();
+
+            if (notifications.length === 0) {
+                list.append('<p class="text-center text-muted">No hay notificaciones</p>');
+                return;
+            }
+
+            notifications.forEach(notification => {
+                list.append(`
+                    <div class="notification-item ${notification.read ? 'read' : 'unread'} p-2 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-1">${notification.message}</p>
+                            <small class="text-muted">${notification.date}</small>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        // Event Listeners
+        $('#notificationsBtn').click(function (e) {
+            e.preventDefault();
+            $('#notificationsModal').modal('show');
+        });
+
+        $('#markAllRead').click(function () {
+            notifications.forEach(n => n.read = true);
+            updateNotificationCount();
+            updateNotificationsList();
+        });
+
+        // Inicializar el botón de logout
+        if (window.initLogoutButton) {
+            window.initLogoutButton();
+        }
+
+        // Initial load
+        loadNotifications();
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Cargar notificaciones reales al cargar la página
+            if (window.loadNotifications) {
+                window.loadNotifications();
+            }
+            // Cargar notificaciones reales al abrir el modal
+            $('#notificationsBtn').on('click', function() {
+                if (window.loadNotifications) {
+                    window.loadNotifications();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

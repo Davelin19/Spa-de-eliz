@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Gestión de Facturas</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/notifications.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .stats-card .stats-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stats-card .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Estilos para el texto del logo */
+        .brand-text {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-completado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pendiente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-fallido {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-reembolsado {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .calculation-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculation-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-top: 2px solid #007bff;
+            padding-top: 0.5rem;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <div class="text-center py-4">
+                        <img src="img/logo.png" alt="Armony Stetic Logo" class="img-fluid mb-2"
+                            style="max-width: 120px;">
+                        <h4 class="brand-text">Armony Stetic</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="clientes.html">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tratamientos.html">
+                                <i class="fas fa-spa"></i> Tratamientos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="citas.html">
+                                <i class="fas fa-calendar-alt"></i> Citas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="facturas.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Facturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reportes.html">
+                                <i class="fas fa-file-alt"></i> Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="administradores.html">
+                                <i class="fas fa-user-shield"></i> Administradores
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Facturas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#facturaModal">
+                            <i class="fas fa-plus"></i> Nueva Factura
+                        </button>
+                        <!-- User Menu -->
+                        <div class="d-flex align-items-center ml-3">
+                            <a href="#" class="btn btn-link mr-3" id="notificationsBtn">
+                                <i class="fas fa-bell"></i> Notificaciones
+                                <span class="badge badge-danger badge-pill ml-2" id="notificationCount">0</span>
+                            </a>
+                            <a href="#" class="btn btn-link" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas de Facturas -->
+                <div class="row mb-4" id="facturasStats">
+                    <div class="col-md-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value" id="totalFacturas">0</div>
+                                <div class="stats-label">Total Facturas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-success" id="facturasCompletadas">0</div>
+                                <div class="stats-label">Completadas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-warning" id="facturasPendientes">0</div>
+                                <div class="stats-label">Pendientes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-info" id="ingresosTotales">$0</div>
+                                <div class="stats-label">Ingresos Totales</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Filtros</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filtroEstado">Estado</label>
+                                    <select class="form-control" id="filtroEstado">
+                                        <option value="">Todos los estados</option>
+                                        <option value="completado">Completado</option>
+                                        <option value="pendiente">Pendiente</option>
+                                        <option value="fallido">Fallido</option>
+                                        <option value="reembolsado">Reembolsado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filtroMetodoPago">Método de Pago</label>
+                                    <select class="form-control" id="filtroMetodoPago">
+                                        <option value="">Todos los métodos</option>
+                                        <option value="efectivo">Efectivo</option>
+                                        <option value="tarjeta">Tarjeta</option>
+                                        <option value="transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filtroFechaInicio">Fecha Inicio</label>
+                                    <input type="date" class="form-control" id="filtroFechaInicio">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="filtroFechaFin">Fecha Fin</label>
+                                    <input type="date" class="form-control" id="filtroFechaFin">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-info" onclick="aplicarFiltros()">
+                                    <i class="fas fa-search"></i> Aplicar Filtros
+                                </button>
+                                <button class="btn btn-secondary ml-2" onclick="limpiarFiltros()">
+                                    <i class="fas fa-eraser"></i> Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador por ID -->
+                <div class="mb-3">
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="number" class="form-control" id="buscarIdFactura" placeholder="Buscar factura por ID">
+                        <button class="btn btn-info" id="btnBuscarIdFactura" type="button">Buscar</button>
+                    </div>
+                </div>
+
+                <!-- Facturas Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="facturasTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Tratamiento</th>
+                                        <th>Fecha Pago</th>
+                                        <th>Total</th>
+                                        <th>Método Pago</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Las facturas se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Nueva/Editar Factura -->
+    <div class="modal fade" id="facturaModal" tabindex="-1" role="dialog" aria-labelledby="facturaModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="facturaModalLabel">Nueva Factura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="facturaForm">
+                        <input type="hidden" id="facturaId">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="clienteSelect">Cliente *</label>
+                                    <select class="form-control" id="clienteSelect" required>
+                                        <option value="">Seleccionar cliente...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tratamientoSelect">Tratamiento *</label>
+                                    <select class="form-control" id="tratamientoSelect" required>
+                                        <option value="">Seleccionar tratamiento...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="adminSelect">Administrador</label>
+                                    <select class="form-control" id="adminSelect">
+                                        <option value="">Seleccionar administrador...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fechaPago">Fecha de Pago *</label>
+                                    <input type="date" class="form-control" id="fechaPago" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="total">Total *</label>
+                                    <input type="number" class="form-control" id="total" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="metodoPago">Método de Pago *</label>
+                                    <select class="form-control" id="metodoPago" required>
+                                        <option value="">Seleccionar método...</option>
+                                        <option value="efectivo">Efectivo</option>
+                                        <option value="tarjeta">Tarjeta</option>
+                                        <option value="transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="estadoPago">Estado del Pago *</label>
+                                    <select class="form-control" id="estadoPago" required>
+                                        <option value="completado">Completado</option>
+                                        <option value="pendiente">Pendiente</option>
+                                        <option value="fallido">Fallido</option>
+                                        <option value="reembolsado">Reembolsado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numeroReferencia">Número de Referencia</label>
+                            <input type="text" class="form-control" id="numeroReferencia" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea class="form-control" id="observaciones" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarFactura()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Factura -->
+    <div class="modal fade" id="verFacturaModal" tabindex="-1" role="dialog" aria-labelledby="verFacturaModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verFacturaModalLabel">Detalles de la Factura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><strong>Información General</strong></h6>
+                            <p><strong>ID:</strong> <span id="verFacturaId"></span></p>
+                            <p><strong>Cliente:</strong> <span id="verFacturaCliente"></span></p>
+                            <p><strong>Tratamiento:</strong> <span id="verFacturaTratamiento"></span></p>
+                            <p><strong>Administrador:</strong> <span id="verFacturaAdmin"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><strong>Información de Pago</strong></h6>
+                            <p><strong>Fecha:</strong> <span id="verFacturaFecha"></span></p>
+                            <p><strong>Total:</strong> <span id="verFacturaTotal"></span></p>
+                            <p><strong>Método:</strong> <span id="verFacturaMetodo"></span></p>
+                            <p><strong>Estado:</strong> <span id="verFacturaEstado"></span></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6><strong>Referencia:</strong></h6>
+                            <p id="verFacturaReferencia"></p>
+                            <h6><strong>Observaciones:</strong></h6>
+                            <p id="verFacturaObservaciones"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-info" onclick="imprimirFactura()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="descargarPDF()">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Notificaciones -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog"
+      aria-labelledby="notificationsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="notificationsList">
+              <!-- Las notificaciones se cargarán dinámicamente aquí -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" id="markAllRead">Marcar todas como leídas</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="js/facturas.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/utils/auth.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Event handler for notifications button
+            $('#notificationsBtn').click(function (e) {
+                e.preventDefault();
+                $('#notificationsModal').modal('show');
+            });
+
+            // Event handler for mark all as read button
+            $('#markAllRead').click(function () {
+                if (window.notifications) {
+                    window.notifications.forEach(n => n.read = true);
+                    updateNotificationCount();
+                    updateNotificationsList();
+                }
+            });
+
+            // Load notifications when page loads
+            if (typeof loadNotifications === 'function') {
+                loadNotifications();
+            }
+        });
+    </script>
+</body>
+
+</html>

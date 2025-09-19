@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Gestión de Clientes</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/notifications.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .stats-card .stats-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stats-card .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Estilos para el texto del logo */
+        .brand-text {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <div class="text-center py-4">
+                        <img src="img/logo.png" alt="Armony Stetic Logo" class="img-fluid mb-2"
+                            style="max-width: 120px;">
+                        <h4 class="brand-text">Armony Stetic</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="clientes.html">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tratamientos.html">
+                                <i class="fas fa-spa"></i> Tratamientos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="citas.html">
+                                <i class="fas fa-calendar-alt"></i> Citas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="facturas.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Facturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reportes.html">
+                                <i class="fas fa-file-alt"></i> Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="administradores.html">
+                                <i class="fas fa-user-shield"></i> Administradores
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Clientes</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clienteModal">
+                            <i class="fas fa-plus"></i> Nuevo Cliente
+                        </button>
+                        <!-- User Menu -->
+                        <div class="d-flex align-items-center ml-3">
+                            <a href="#" class="btn btn-link mr-3" id="notificationsBtn">
+                                <i class="fas fa-bell"></i> Notificaciones
+                                <span class="badge badge-danger badge-pill ml-2" id="notificationCount">0</span>
+                            </a>
+                            <a href="#" class="btn btn-link" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas de Clientes -->
+                <div class="row mb-4" id="clientesStats">
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value" id="totalClientes">0</div>
+                                <div class="stats-label">Total de Clientes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-success" id="clientesActivos">0</div>
+                                <div class="stats-label">Clientes Activos</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-danger" id="clientesInactivos">0</div>
+                                <div class="stats-label">Clientes Inactivos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador por ID -->
+                <div class="mb-3">
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="number" class="form-control" id="buscarIdCliente" placeholder="Buscar cliente por ID">
+                        <button class="btn btn-info" id="btnBuscarIdCliente" type="button">Buscar</button>
+                    </div>
+                </div>
+
+                <!-- Clientes Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="clientesTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Dirección</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Se llenará dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Cliente Modal (Agregar) -->
+    <div class="modal fade" id="clienteModal" tabindex="-1" role="dialog" aria-labelledby="clienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="clienteModalLabel"><i class="fas fa-user-plus mr-2"></i>Nuevo Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="clienteForm">
+                        <input type="hidden" id="id_cliente">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección</label>
+                            <textarea class="form-control" id="direccion" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasena">Contraseña</label>
+                            <input type="password" class="form-control" id="contrasena" autocomplete="new-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" required>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveCliente">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cliente Modal (Editar) -->
+    <div class="modal fade" id="editarClienteModal" tabindex="-1" role="dialog" aria-labelledby="editarClienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-dark" id="editarClienteModalLabel"><i class="fas fa-user-edit mr-2"></i>Editar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarClienteForm">
+                        <input type="hidden" id="editar_id_cliente">
+                        <div class="form-group">
+                            <label for="editar_nombre">Nombre</label>
+                            <input type="text" class="form-control" id="editar_nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_email">Email</label>
+                            <input type="email" class="form-control" id="editar_email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_telefono">Teléfono</label>
+                            <input type="tel" class="form-control" id="editar_telefono" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_direccion">Dirección</label>
+                            <textarea class="form-control" id="editar_direccion" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_contrasena">Contraseña (dejar vacío para no cambiar)</label>
+                            <input type="password" class="form-control" id="editar_contrasena" autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_estado">Estado</label>
+                            <select class="form-control" id="editar_estado" required>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning text-dark" id="updateCliente">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog"
+        aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="notificationsList">
+                        <!-- Las notificaciones se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="markAllRead">Marcar todas como leídas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Cliente -->
+    <div class="modal fade" id="detalleClienteModal" tabindex="-1" role="dialog" aria-labelledby="detalleClienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleClienteModalLabel">Detalles del Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>ID:</strong> <span id="detalle_id_cliente"></span></li>
+                        <li class="list-group-item"><strong>Nombre:</strong> <span id="detalle_nombre"></span></li>
+                        <li class="list-group-item"><strong>Email:</strong> <span id="detalle_email"></span></li>
+                        <li class="list-group-item"><strong>Teléfono:</strong> <span id="detalle_telefono"></span></li>
+                        <li class="list-group-item"><strong>Dirección:</strong> <span id="detalle_direccion"></span></li>
+                        <li class="list-group-item"><strong>Estado:</strong> <span id="detalle_estado"></span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/clientes.js"></script>
+    <script src="js/utils/auth.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Inicializar el botón de logout
+            if (window.initLogoutButton) {
+                window.initLogoutButton();
+            }
+            // Cargar notificaciones reales al cargar la página
+            if (window.loadNotifications) {
+                window.loadNotifications();
+            }
+            // Event handler para el botón de notificaciones
+            $('#notificationsBtn').on('click', function(e) {
+                e.preventDefault();
+                if (window.loadNotifications) {
+                    window.loadNotifications();
+                }
+                $('#notificationsModal').modal('show');
+            });
+
+            // Event handler para marcar todas como leídas
+            $('#markAllRead').click(function () {
+                // Marcar todas las notificaciones como leídas
+                if (window.notifications && window.notifications.length > 0) {
+                    const unreadNotifications = window.notifications.filter(n => !n.read);
+                    
+                    // Marcar todas como leídas en el backend
+                    Promise.all(unreadNotifications.map(notification => 
+                        fetch(`http://localhost:5000/api/notificaciones/${notification.id}/marcar-leida`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                    )).then(() => {
+                        // Actualizar el estado local
+                        window.notifications.forEach(n => n.read = true);
+                        if (window.updateNotificationCount) window.updateNotificationCount();
+                        if (window.updateNotificationsList) window.updateNotificationsList();
+                    }).catch(error => {
+                        console.error('Error al marcar todas las notificaciones como leídas:', error);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

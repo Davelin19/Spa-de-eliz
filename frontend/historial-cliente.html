@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Mi Historial</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/notifications.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        body {
+            background: #70e1f0;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(112, 225, 240, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(112, 225, 240, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(112, 225, 240, 0.05) 0%, transparent 60%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(45deg, rgba(112, 225, 240, 0.05) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(112, 225, 240, 0.05) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(112, 225, 240, 0.05) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(112, 225, 240, 0.05) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            z-index: -1;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, #70e1f0, #50c1d0) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+        }
+
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #70e1f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-left: 1rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #70e1f0;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #70e1f0;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .btn-filter {
+            background: linear-gradient(45deg, #70e1f0, #50c1d0);
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-filter:hover {
+            background: linear-gradient(45deg, #50c1d0, #40a1b0);
+            color: white;
+        }
+
+        .stats-summary {
+            background: linear-gradient(45deg, #70e1f0, #50c1d0);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-item {
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="usuario.html">
+                <img src="img/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+                Armony Stetic
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="usuario.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="usuario.html#perfil">Mi Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="usuario.html#citas">Mis Citas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="historial-cliente.html">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutClienteBtn">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2"><i class="fas fa-history me-2"></i>Mi Historial</h1>
+                    <p class="text-muted mb-0">Revisa el historial completo de tus citas y tratamientos</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-filter" id="exportHistorialBtn">
+                        <i class="fas fa-download me-2"></i>Exportar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="row">
+                <div class="col-md-3 stats-item">
+                    <span class="stats-number" id="totalCitas">0</span>
+                    <span class="stats-label">Total de Citas</span>
+                </div>
+                <div class="col-md-3 stats-item">
+                    <span class="stats-number" id="citasCompletadas">0</span>
+                    <span class="stats-label">Completadas</span>
+                </div>
+                <div class="col-md-3 stats-item">
+                    <span class="stats-number" id="tratamientosUnicos">0</span>
+                    <span class="stats-label">Tratamientos Diferentes</span>
+                </div>
+                <div class="col-md-3 stats-item">
+                    <span class="stats-number" id="gastoTotal">$0</span>
+                    <span class="stats-label">Gasto Total</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-card">
+            <h5 class="mb-3"><i class="fas fa-filter me-2"></i>Filtros</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="filtroEstado" class="form-label">Estado</label>
+                    <select class="form-control" id="filtroEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="completada">Completadas</option>
+                        <option value="cancelada">Canceladas</option>
+                        <option value="pendiente">Pendientes</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="filtroTratamiento" class="form-label">Tratamiento</label>
+                    <select class="form-control" id="filtroTratamiento">
+                        <option value="">Todos los tratamientos</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="fechaDesde" class="form-label">Desde</label>
+                    <input type="date" class="form-control" id="fechaDesde">
+                </div>
+                <div class="col-md-2">
+                    <label for="fechaHasta" class="form-label">Hasta</label>
+                    <input type="date" class="form-control" id="fechaHasta">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-filter w-100" id="aplicarFiltrosBtn">
+                        <i class="fas fa-search"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Timeline -->
+        <div class="history-card">
+            <h5 class="mb-4"><i class="fas fa-clock me-2"></i>Cronología de Citas</h5>
+            <div id="historialContainer">
+                <div class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <h5>Cargando historial...</h5>
+                    <p>Por favor espere mientras cargamos su información.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalles -->
+    <div class="modal fade" id="detallesCitaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles de la Cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detallesCitaContent">
+                    <!-- Contenido dinámico -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones -->
+    <div id="notificationsContainer"></div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/utils/auth-cliente.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log('Página historial-cliente cargada');
+            console.log('Datos de cliente en sessionStorage:', sessionStorage.getItem('clienteData'));
+            // Verificar autenticación
+            const clienteData = sessionStorage.getItem('clienteData');
+            if (!clienteData) {
+                window.location.replace('login.html');
+                return;
+            }
+
+            const cliente = JSON.parse(clienteData);
+            const API_URL = 'http://localhost:5000';
+            let historialCompleto = [];
+
+            // Cargar historial completo del cliente
+            async function loadHistorialCompleto() {
+                try {
+                    const response = await fetch(`${API_URL}/api/citas/cliente/${cliente.id}/historial`);
+                    if (response.ok) {
+                        historialCompleto = await response.json();
+                        updateStats();
+                        displayHistorial(historialCompleto);
+                        loadTratamientosFilter();
+                    } else {
+                        showError('Error al cargar el historial');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error al cargar el historial');
+                }
+            }
+
+            // Actualizar estadísticas
+            function updateStats() {
+                const totalCitas = historialCompleto.length;
+                const citasCompletadas = historialCompleto.filter(cita => cita.estado === 'completada').length;
+                const tratamientosUnicos = new Set(historialCompleto.map(cita => cita.id_tratamiento)).size;
+                const gastoTotal = historialCompleto
+                    .filter(cita => cita.estado === 'completada')
+                    .reduce((total, cita) => total + (parseFloat(cita.precio) || 0), 0);
+
+                $('#totalCitas').text(totalCitas);
+                $('#citasCompletadas').text(citasCompletadas);
+                $('#tratamientosUnicos').text(tratamientosUnicos);
+                $('#gastoTotal').text(`$${gastoTotal.toFixed(2)}`);
+            }
+
+            // Mostrar historial en timeline
+            function displayHistorial(citas) {
+                const container = $('#historialContainer');
+                container.empty();
+
+                if (citas.length === 0) {
+                    container.html(`
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-times"></i>
+                            <h5>No hay citas en el historial</h5>
+                            <p>No se encontraron citas que coincidan con los filtros seleccionados.</p>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Ordenar por fecha descendente
+                citas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+                const timeline = $('<div class="timeline"></div>');
+
+                citas.forEach(cita => {
+                    const fecha = new Date(cita.fecha);
+                    const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const estadoBadge = getEstadoBadge(cita.estado);
+                    const iconoEstado = getEstadoIcon(cita.estado);
+
+                    const timelineItem = $(`
+                        <div class="timeline-item" data-cita-id="${cita.id_cita}">
+                            <div class="timeline-date">
+                                <i class="fas fa-calendar me-1"></i>${fechaFormateada} - ${cita.hora}
+                            </div>
+                            <div class="timeline-title">
+                                <i class="${iconoEstado} me-2"></i>${cita.nombre_tratamiento || 'Tratamiento no especificado'}
+                                <span class="status-badge bg-${estadoBadge} text-white ms-2">${cita.estado}</span>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p class="mb-1"><strong>Precio:</strong> $${(parseFloat(cita.precio) || 0).toFixed(2)}</p>
+                                        ${cita.observaciones ? `<p class="mb-1"><strong>Observaciones:</strong> ${cita.observaciones}</p>` : ''}
+                                        ${cita.notas ? `<p class="mb-1"><strong>Notas:</strong> ${cita.notas}</p>` : ''}
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <button class="btn btn-sm btn-outline-primary ver-detalles-btn" data-cita-id="${cita.id_cita}">
+                                            <i class="fas fa-eye"></i> Ver Detalles
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+
+                    timeline.append(timelineItem);
+                });
+
+                container.append(timeline);
+            }
+
+            // Obtener clase de badge según estado
+            function getEstadoBadge(estado) {
+                switch (estado) {
+                    case 'completada': return 'success';
+                    case 'pendiente': return 'warning';
+                    case 'cancelada': return 'danger';
+                    case 'confirmada': return 'info';
+                    default: return 'secondary';
+                }
+            }
+
+            // Obtener icono según estado
+            function getEstadoIcon(estado) {
+                switch (estado) {
+                    case 'completada': return 'fas fa-check-circle text-success';
+                    case 'pendiente': return 'fas fa-clock text-warning';
+                    case 'cancelada': return 'fas fa-times-circle text-danger';
+                    case 'confirmada': return 'fas fa-calendar-check text-info';
+                    default: return 'fas fa-question-circle text-secondary';
+                }
+            }
+
+            // Cargar tratamientos para filtro
+            async function loadTratamientosFilter() {
+                const tratamientosUnicos = [...new Set(historialCompleto.map(cita => ({
+                    id: cita.id_tratamiento,
+                    nombre: cita.nombre_tratamiento
+                })).filter(t => t.nombre))].reduce((acc, current) => {
+                    const x = acc.find(item => item.id === current.id);
+                    if (!x) {
+                        return acc.concat([current]);
+                    } else {
+                        return acc;
+                    }
+                }, []);
+
+                const select = $('#filtroTratamiento');
+                select.empty().append('<option value="">Todos los tratamientos</option>');
+                tratamientosUnicos.forEach(tratamiento => {
+                    select.append(`<option value="${tratamiento.id}">${tratamiento.nombre}</option>`);
+                });
+            }
+
+            // Aplicar filtros
+            function aplicarFiltros() {
+                const estado = $('#filtroEstado').val();
+                const tratamiento = $('#filtroTratamiento').val();
+                const fechaDesde = $('#fechaDesde').val();
+                const fechaHasta = $('#fechaHasta').val();
+
+                let citasFiltradas = [...historialCompleto];
+
+                if (estado) {
+                    citasFiltradas = citasFiltradas.filter(cita => cita.estado === estado);
+                }
+
+                if (tratamiento) {
+                    citasFiltradas = citasFiltradas.filter(cita => cita.id_tratamiento == tratamiento);
+                }
+
+                if (fechaDesde) {
+                    citasFiltradas = citasFiltradas.filter(cita => new Date(cita.fecha) >= new Date(fechaDesde));
+                }
+
+                if (fechaHasta) {
+                    citasFiltradas = citasFiltradas.filter(cita => new Date(cita.fecha) <= new Date(fechaHasta));
+                }
+
+                displayHistorial(citasFiltradas);
+            }
+
+            // Mostrar detalles de cita
+            async function mostrarDetallesCita(citaId) {
+                const cita = historialCompleto.find(c => c.id_cita == citaId);
+                if (!cita) return;
+
+                const fecha = new Date(cita.fecha).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'long'
+                });
+
+                const estadoBadge = getEstadoBadge(cita.estado);
+
+                const content = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Información General</h6>
+                            <p><strong>Fecha:</strong> ${fecha}</p>
+                            <p><strong>Hora:</strong> ${cita.hora}</p>
+                            <p><strong>Tratamiento:</strong> ${cita.nombre_tratamiento || 'No especificado'}</p>
+                            <p><strong>Estado:</strong> <span class="badge bg-${estadoBadge}">${cita.estado}</span></p>
+                            <p><strong>Precio:</strong> $${(parseFloat(cita.precio) || 0).toFixed(2)}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Detalles Adicionales</h6>
+                            <p><strong>Observaciones:</strong></p>
+                            <p class="text-muted">${cita.observaciones || 'Sin observaciones'}</p>
+                            <p><strong>Notas del tratamiento:</strong></p>
+                            <p class="text-muted">${cita.notas || 'Sin notas adicionales'}</p>
+                        </div>
+                    </div>
+                `;
+
+                $('#detallesCitaContent').html(content);
+                $('#detallesCitaModal').modal('show');
+            }
+
+            // Función para exportar historial a PDF
+            function exportarHistorialPDF() {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    
+                    // Configuración del documento
+                    const pageWidth = doc.internal.pageSize.width;
+                    const pageHeight = doc.internal.pageSize.height;
+                    const margin = 20;
+                    let yPosition = margin;
+                    
+                    // Encabezado
+                    doc.setFontSize(20);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Armony Stetic', pageWidth / 2, yPosition, { align: 'center' });
+                    yPosition += 10;
+                    
+                    doc.setFontSize(16);
+                    doc.text('Historial de Citas', pageWidth / 2, yPosition, { align: 'center' });
+                    yPosition += 15;
+                    
+                    // Información del cliente
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(`Cliente: ${cliente.nombre}`, margin, yPosition);
+                    yPosition += 8;
+                    doc.text(`Email: ${cliente.email}`, margin, yPosition);
+                    yPosition += 8;
+                    doc.text(`Fecha de generación: ${new Date().toLocaleDateString('es-ES')}`, margin, yPosition);
+                    yPosition += 15;
+                    
+                    // Estadísticas resumen
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Resumen:', margin, yPosition);
+                    yPosition += 8;
+                    doc.setFont(undefined, 'normal');
+                    
+                    const totalCitas = historialCompleto.length;
+                    const citasCompletadas = historialCompleto.filter(c => c.estado === 'Completada').length;
+                    const citasCanceladas = historialCompleto.filter(c => c.estado === 'Cancelada').length;
+                    const totalGastado = historialCompleto
+                        .filter(c => c.estado === 'Completada')
+                        .reduce((sum, c) => sum + (parseFloat(c.precio) || 0), 0);
+                    
+                    doc.text(`• Total de citas: ${totalCitas}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`• Citas completadas: ${citasCompletadas}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`• Citas canceladas: ${citasCanceladas}`, margin + 5, yPosition);
+                    yPosition += 6;
+                    doc.text(`• Total gastado: $${totalGastado.toFixed(2)}`, margin + 5, yPosition);
+                    yPosition += 15;
+                    
+                    // Historial de citas
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Historial de Citas:', margin, yPosition);
+                    yPosition += 10;
+                    
+                    // Encabezados de tabla
+                    doc.setFontSize(10);
+                    const colWidths = [30, 25, 60, 25, 30];
+                    const headers = ['Fecha', 'Hora', 'Tratamiento', 'Estado', 'Precio'];
+                    let xPosition = margin;
+                    
+                    doc.setFont(undefined, 'bold');
+                    headers.forEach((header, index) => {
+                        doc.text(header, xPosition, yPosition);
+                        xPosition += colWidths[index];
+                    });
+                    yPosition += 8;
+                    
+                    // Línea separadora
+                    doc.line(margin, yPosition - 2, pageWidth - margin, yPosition - 2);
+                    yPosition += 5;
+                    
+                    // Datos de las citas
+                    doc.setFont(undefined, 'normal');
+                    historialCompleto.forEach((cita, index) => {
+                        // Verificar si necesitamos una nueva página
+                        if (yPosition > pageHeight - 30) {
+                            doc.addPage();
+                            yPosition = margin;
+                        }
+                        
+                        const fecha = new Date(cita.fecha).toLocaleDateString('es-ES');
+                        const tratamiento = (cita.nombre_tratamiento || 'No especificado').substring(0, 25);
+                        const precio = cita.precio ? `$${parseFloat(cita.precio).toFixed(2)}` : 'N/A';
+                        
+                        const rowData = [fecha, cita.hora, tratamiento, cita.estado, precio];
+                        xPosition = margin;
+                        
+                        rowData.forEach((data, colIndex) => {
+                            doc.text(data.toString(), xPosition, yPosition);
+                            xPosition += colWidths[colIndex];
+                        });
+                        
+                        yPosition += 7;
+                        
+                        // Agregar observaciones si existen
+                        if (cita.observaciones && cita.observaciones.trim()) {
+                            doc.setFontSize(8);
+                            doc.setFont(undefined, 'italic');
+                            const observaciones = `Obs: ${cita.observaciones.substring(0, 80)}`;
+                            doc.text(observaciones, margin + 5, yPosition);
+                            yPosition += 5;
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
+                        }
+                        
+                        yPosition += 2;
+                    });
+                    
+                    // Pie de página
+                    const totalPages = doc.internal.getNumberOfPages();
+                    for (let i = 1; i <= totalPages; i++) {
+                        doc.setPage(i);
+                        doc.setFontSize(8);
+                        doc.text(`Página ${i} de ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+                        doc.text('Armony Stetic - Sistema de Gestión', margin, pageHeight - 10);
+                    }
+                    
+                    // Generar nombre del archivo
+                    const fechaActual = new Date().toISOString().split('T')[0];
+                    const nombreArchivo = `historial_${cliente.nombre.replace(/\s+/g, '_')}_${fechaActual}.pdf`;
+                    
+                    // Descargar el PDF
+                    doc.save(nombreArchivo);
+                    showSuccess('PDF generado exitosamente');
+                    
+                } catch (error) {
+                    console.error('Error al generar PDF:', error);
+                    showError('Error al generar el PDF. Por favor, intenta nuevamente.');
+                }
+            }
+
+            // Event listeners
+            initClientLogoutButton();
+
+            $('#aplicarFiltrosBtn').click(aplicarFiltros);
+
+            // Event delegation para botones dinámicos
+            $(document).on('click', '.ver-detalles-btn', function() {
+                const citaId = $(this).data('cita-id');
+                mostrarDetallesCita(citaId);
+            });
+
+            $('#exportHistorialBtn').click(function() {
+                exportarHistorialPDF();
+            });
+
+            // Limpiar filtros al cambiar cualquier campo
+            $('#filtroEstado, #filtroTratamiento, #fechaDesde, #fechaHasta').change(function() {
+                // Auto-aplicar filtros cuando cambie algún campo
+                setTimeout(aplicarFiltros, 100);
+            });
+
+            // Cargar datos iniciales
+            loadHistorialCompleto();
+        });
+    </script>
+</body>
+
+</html>

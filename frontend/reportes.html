@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Gestión de Reportes</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-card {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .stats-card .stats-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stats-card .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Estilos para el texto del logo */
+        .brand-text {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <div class="text-center py-4">
+                        <img src="img/logo.png" alt="Armony Stetic Logo" class="img-fluid mb-2"
+                            style="max-width: 120px;">
+                        <h4 class="brand-text">Armony Stetic</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="clientes.html">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tratamientos.html">
+                                <i class="fas fa-spa"></i> Tratamientos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="citas.html">
+                                <i class="fas fa-calendar-alt"></i> Citas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="reportes.html">
+                                <i class="fas fa-file-alt"></i> Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="facturas.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Facturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="administradores.html">
+                                <i class="fas fa-user-shield"></i> Administradores
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Reportes</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reporteModal">
+                            <i class="fas fa-plus"></i> Nuevo Reporte
+                        </button>
+                        <!-- User Menu -->
+                        <div class="d-flex align-items-center ml-3">
+                            <a href="#" class="btn btn-link mr-3" id="notificationsBtn">
+                                <i class="fas fa-bell"></i> Notificaciones
+                                <span class="badge badge-danger badge-pill ml-2" id="notificationCount">0</span>
+                            </a>
+                            <a href="#" class="btn btn-link" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas de Reportes -->
+                <div class="row mb-4" id="reportesStats">
+                    <div class="col-md-6">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value" id="totalReportes">0</div>
+                                <div class="stats-label">Total de Reportes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card stats-card text-center">
+                            <div class="card-body">
+                                <div class="stats-value text-primary" id="ultimoReporte">-</div>
+                                <div class="stats-label">Último Reporte</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consulta individual de Reporte -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form id="buscarReporteForm" class="form-inline">
+                            <div class="form-group mb-2">
+                                <label for="buscarReporteId" class="mr-2">Buscar reporte por ID:</label>
+                                <input type="number" class="form-control mr-2" id="buscarReporteId" placeholder="ID de reporte" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-info mb-2"><i class="fas fa-search"></i> Buscar</button>
+                        </form>
+                        <div id="detalleReporte" class="mt-3" style="display:none;">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <i class="fas fa-eye mr-2"></i>Detalles del Reporte
+                                </div>
+                                <div class="card-body p-0">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>ID:</strong> <span id="detalle_id_reporte"></span></li>
+                                        <li class="list-group-item"><strong>Título:</strong> <span id="detalle_titulo"></span></li>
+                                        <li class="list-group-item"><strong>Descripción:</strong> <span id="detalle_descripcion"></span></li>
+                                        <li class="list-group-item"><strong>Tipo:</strong> <span id="detalle_tipo"></span></li>
+                                        <li class="list-group-item"><strong>Fecha:</strong> <span id="detalle_fecha"></span></li>
+                                        <li class="list-group-item"><strong>Administrador:</strong> <span id="detalle_admin"></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="reportesTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Título</th>
+                                        <th>Descripción</th>
+                                        <th>Fecha Generación</th>
+                                        <th>Tipo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Se llenará dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Reporte Modal (Agregar) -->
+    <div class="modal fade" id="reporteModal" tabindex="-1" role="dialog" aria-labelledby="reporteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="reporteModalLabel"><i class="fas fa-plus mr-2"></i>Nuevo Reporte</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reporteForm">
+                        <input type="hidden" id="id_reporte">
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input type="text" class="form-control" id="titulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select class="form-control" id="tipo" required>
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="cliente">Cliente</option>
+                                <option value="cita">Cita</option>
+                                <option value="sistema">Sistema</option>
+                                <option value="tratamiento">Tratamiento</option>
+                                <option value="facturacion">Facturación</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" required>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha_reporte">Fecha del Reporte</label>
+                            <input type="date" class="form-control" id="fecha_reporte" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveReporte">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reporte Modal (Editar) -->
+    <div class="modal fade" id="editarReporteModal" tabindex="-1" role="dialog" aria-labelledby="editarReporteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title text-dark" id="editarReporteModalLabel"><i class="fas fa-edit mr-2"></i>Editar Reporte</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarReporteForm">
+                        <input type="hidden" id="editar_id_reporte">
+                        <div class="form-group">
+                            <label for="editar_titulo">Título</label>
+                            <input type="text" class="form-control" id="editar_titulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_descripcion">Descripción</label>
+                            <textarea class="form-control" id="editar_descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_tipo">Tipo</label>
+                            <select class="form-control" id="editar_tipo" required>
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="cliente">Cliente</option>
+                                <option value="cita">Cita</option>
+                                <option value="sistema">Sistema</option>
+                                <option value="tratamiento">Tratamiento</option>
+                                <option value="facturacion">Facturación</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_estado">Estado</label>
+                            <select class="form-control" id="editar_estado" required>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editar_fecha_reporte">Fecha del Reporte</label>
+                            <input type="date" class="form-control" id="editar_fecha_reporte" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning text-dark" id="updateReporte">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog"
+        aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="notificationsList">
+                        <!-- Las notificaciones se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="markAllRead">Marcar todas como leídas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Reporte -->
+    <div class="modal fade" id="detalleReporteModal" tabindex="-1" role="dialog" aria-labelledby="detalleReporteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleReporteModalLabel">Detalles del Reporte</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>ID:</strong> <span id="detalle_id_reporte"></span></li>
+                        <li class="list-group-item"><strong>Título:</strong> <span id="detalle_titulo"></span></li>
+                        <li class="list-group-item"><strong>Descripción:</strong> <span id="detalle_descripcion"></span></li>
+                        <li class="list-group-item"><strong>Tipo:</strong> <span id="detalle_tipo"></span></li>
+                        <li class="list-group-item"><strong>Fecha:</strong> <span id="detalle_fecha"></span></li>
+                        <li class="list-group-item"><strong>Administrador:</strong> <span id="detalle_admin"></span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tables.js"></script>
+    <script src="js/reportes.js"></script>
+    <script src="js/utils/auth.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Inicializar el botón de logout
+            if (window.initLogoutButton) {
+                window.initLogoutButton();
+            }
+            // Cargar notificaciones reales al cargar la página
+            if (window.loadNotifications) {
+                window.loadNotifications();
+            }
+            // Event handler para el botón de notificaciones
+            $('#notificationsBtn').on('click', function(e) {
+                e.preventDefault();
+                if (window.loadNotifications) {
+                    window.loadNotifications();
+                }
+                $('#notificationsModal').modal('show');
+            });
+
+            // Event handler para marcar todas como leídas
+            $('#markAllRead').click(function() {
+                // Marcar todas las notificaciones como leídas
+                if (window.notifications && window.notifications.length > 0) {
+                    const unreadNotifications = window.notifications.filter(n => !n.read);
+                    
+                    // Marcar todas como leídas en el backend
+                    Promise.all(unreadNotifications.map(notification => 
+                        fetch(`http://localhost:5000/api/notificaciones/${notification.id}/marcar-leida`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                    )).then(() => {
+                        // Actualizar el estado local
+                        window.notifications.forEach(n => n.read = true);
+                        window.updateNotificationCount();
+                        window.updateNotificationsList();
+                    }).catch(error => {
+                        console.error('Error al marcar todas las notificaciones como leídas:', error);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

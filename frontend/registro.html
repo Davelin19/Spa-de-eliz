@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Armony Stetic</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #70e1f0 0%, #50c1d0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(112, 225, 240, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(112, 225, 240, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(112, 225, 240, 0.1) 0%, transparent 60%);
+      z-index: 0;
+    }
+
+    .register-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(112, 225, 240, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .register-header {
+      background: linear-gradient(135deg, #e1ebec 0%, #50c1d0 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    .register-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      animation: shimmer 3s infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .register-header h2 {
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .register-body {
+      padding: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+      border: none;
+      border-bottom: 2px solid #e0e0e0;
+      border-radius: 0;
+      padding: 0.75rem 0;
+      font-size: 1rem;
+      background: transparent;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #70e1f0;
+      background: transparent;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      z-index: 10;
+    }
+
+    .input-group .form-control {
+      padding-left: 2rem;
+    }
+
+    .alert {
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, #70e1f0 0%, #50c1d0 100%);
+      border: none;
+      border-radius: 25px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-register::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(112, 225, 240, 0.4);
+    }
+    
+    .btn-register:hover::before {
+      left: 100%;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .back-link a {
+      color: #70e1f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .back-link a:hover {
+      color: #50c1d0;
+      text-decoration: underline;
+      transform: translateX(-3px);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 10;
+      transition: color 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      color: #70e1f0;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: white;
+      transform: translateX(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-button i {
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html" class="back-button" title="Regresar al inicio">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+
+  <div class="register-container">
+    <div class="register-header">
+      <img src="img/logo.png" alt="Logo de la empresa" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <h2>Crear Cuenta</h2>
+      <p class="mb-0">Únete a nuestra plataforma</p>
+    </div>
+
+    <div class="register-body">
+      <div id="alert-container"></div>
+      <form id="registerForm">
+        <div class="form-group">
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required>
+          </div>
+          <div class="invalid-feedback" id="nombreError"></div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico" required>
+          </div>
+          <div class="invalid-feedback" id="emailError"></div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <i class="fas fa-phone"></i>
+            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" required>
+          </div>
+          <div class="invalid-feedback" id="telefonoError"></div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección" required>
+          </div>
+          <div class="invalid-feedback" id="direccionError"></div>
+        </div>
+        <div class="form-group">
+           <div class="input-group">
+             <i class="fas fa-lock"></i>
+             <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+             <button type="button" class="password-toggle" id="togglePassword1">
+               <i class="fas fa-eye"></i>
+             </button>
+           </div>
+           <div class="invalid-feedback" id="contrasenaError"></div>
+         </div>
+        <div class="form-group">
+           <div class="input-group">
+             <i class="fas fa-lock"></i>
+             <input type="password" class="form-control" id="confirmar_contrasena" name="confirmar_contrasena" placeholder="Confirmar contraseña" required>
+             <button type="button" class="password-toggle" id="togglePassword2">
+               <i class="fas fa-eye"></i>
+             </button>
+           </div>
+           <div class="invalid-feedback" id="confirmarContrasenaError"></div>
+         </div>
+        <button type="submit" class="btn btn-primary btn-register">
+          <i class="fas fa-user-plus me-2"></i>Crear Cuenta
+        </button>
+      </form>
+      <div class="text-center mt-3">
+        <div class="mb-2">
+          <a href="login.html" class="text-decoration-none" style="color: #70e1f0; font-weight: 500;">
+            <i class="fas fa-sign-in-alt me-1"></i>¿Ya tienes cuenta? Iniciar sesión
+          </a>
+        </div>
+      </div>
+      <div class="back-link">
+        <a href="index.html">
+          <i class="fas fa-arrow-left me-1"></i>Volver al inicio
+        </a>
+      </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/registro.js"></script>
+    
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword1').addEventListener('click', function() {
+            const passwordField = document.getElementById('contrasena');
+            const toggleIcon = this.querySelector('i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('togglePassword2').addEventListener('click', function() {
+            const passwordField = document.getElementById('confirmar_contrasena');
+            const toggleIcon = this.querySelector('i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo.png" rel="icon">
+  <title>Armony Stetic - Panel de Administración</title>
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/notifications.css" rel="stylesheet">
+  <link href="css/shared.css" rel="stylesheet">
+  <style>
+    .dashboard-card {
+      transition: transform 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .dashboard-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .stats-card {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      color: white;
+    }
+
+    .stats-card .stats-value {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .stats-card .stats-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Estilos para el menú de usuario */
+    .dropdown-toggle::after {
+      display: none;
+    }
+
+    .btn-link {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    /* Estilos para las notificaciones */
+    .notification-item {
+      transition: background-color 0.2s ease;
+    }
+
+    .notification-item:hover {
+      background-color: #f8f9fa;
+    }
+
+    .notification-item.unread {
+      background-color: #f0f7ff;
+    }
+
+    .notification-item.unread:hover {
+      background-color: #e6f2ff;
+    }
+
+    #notificationsList {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .notification-item p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    .notification-item small {
+      font-size: 0.8rem;
+    }
+
+    #notificationCount {
+      position: relative;
+      top: -1px;
+    }
+
+    /* Estilos para el texto del logo */
+    .brand-text {
+      font-family: 'Playfair Display', serif;
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilos para el sidebar */
+    .sidebar {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .sidebar .nav-link {
+      color: rgba(255, 255, 255, 0.9);
+      padding: 0.8rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .nav-link:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar .nav-link.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+  </style>
+  <!-- Agregar fuente Playfair Display -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar">
+        <div class="sidebar-sticky">
+          <div class="text-center py-4">
+            <img src="img/logo.png" alt="Armony Stetic Logo" class="img-fluid mb-2" style="max-width: 120px;">
+            <h4 class="brand-text">Armony Stetic</h4>
+          </div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">
+                <i class="fas fa-home"></i> Inicio
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="clientes.html">
+                <i class="fas fa-users"></i> Clientes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="tratamientos.html">
+                <i class="fas fa-spa"></i> Tratamientos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="citas.html">
+                <i class="fas fa-calendar-alt"></i> Citas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="facturas.html">
+                <i class="fas fa-file-invoice-dollar"></i> Facturas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="reportes.html">
+                <i class="fas fa-file-alt"></i> Reportes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="administradores.html">
+                <i class="fas fa-user-shield"></i> Administradores
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Main content -->
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Panel de Administración</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <!-- User Menu -->
+            <div class="d-flex align-items-center ml-3">
+              <a href="#" class="btn btn-link mr-3" id="notificationsBtn">
+                <i class="fas fa-bell"></i> Notificaciones
+                <span class="badge badge-danger badge-pill ml-2" id="notificationCount">0</span>
+              </a>
+              <a href="#" class="btn btn-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications Modal -->
+        <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog"
+          aria-labelledby="notificationsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div id="notificationsList">
+                  <!-- Las notificaciones se cargarán dinámicamente aquí -->
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="markAllRead">Marcar todas como leídas</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stats-value" id="totalClientes">0</div>
+                <div class="stats-label">Clientes Totales</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stats-value" id="totalCitas">0</div>
+                <div class="stats-label">Citas del Día</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stats-value" id="totalTratamientos">0</div>
+                <div class="stats-label">Tratamientos Activos</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stats-value" id="totalReportes">0</div>
+                <div class="stats-label">Reportes Disponibles</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Access Cards -->
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card dashboard-card">
+              <div class="card-body text-center">
+                <i class="fas fa-users dashboard-icon text-primary"></i>
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Gestiona los clientes del centro estético</p>
+                <a href="clientes.html" class="btn btn-primary">Ir a Clientes</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card dashboard-card">
+              <div class="card-body text-center">
+                <i class="fas fa-calendar-alt dashboard-icon text-success"></i>
+                <h5 class="card-title">Citas</h5>
+                <p class="card-text">Administra las citas y agenda</p>
+                <a href="citas.html" class="btn btn-success">Ir a Citas</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card dashboard-card">
+              <div class="card-body text-center">
+                <i class="fas fa-spa dashboard-icon text-info"></i>
+                <h5 class="card-title">Tratamientos</h5>
+                <p class="card-text">Gestiona los tratamientos disponibles</p>
+                <a href="tratamientos.html" class="btn btn-info">Ir a Tratamientos</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card dashboard-card">
+              <div class="card-body text-center">
+                <i class="fas fa-file-alt dashboard-icon text-warning"></i>
+                <h5 class="card-title">Reportes</h5>
+                <p class="card-text">Administra los reportes del sistema</p>
+                <a href="reportes.html" class="btn btn-warning">Ir a Reportes</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Appointments -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-0">Citas Recientes</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Tratamiento</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="citasRecientes">
+                      <!-- Se llenará dinámicamente -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/utils/notifications.js"></script>
+  <!-- Remove tables.js to avoid conflicts with home.html's own loadStats function -->
+  <!-- <script src="js/tables.js"></script> -->
+  <script src="js/utils/auth.js"></script>
+  <script type="module">
+    import Cliente from './js/models/Cliente.js';
+    import Cita from './js/models/Cita.js';
+    import Tratamiento from './js/models/Tratamiento.js';
+    // import { showError } from './js/utils/notifications.js'; // Eliminar, uso global
+
+    // Verificar autenticación (usando variable global)
+    if (window.checkAuth) {
+        window.checkAuth();
+    }
+
+    // Cargar notificaciones automáticamente
+    if (window.loadNotifications) {
+        window.loadNotifications();
+        // Recargar notificaciones cada 30 segundos
+        setInterval(() => {
+            window.loadNotifications();
+        }, 30000);
+    }
+
+    // Inicializar el botón de logout (usando variable global)
+    if (window.initLogoutButton) {
+        window.initLogoutButton();
+    }
+
+    // Notificaciones
+    let notifications = [];
+
+    function loadNotifications() {
+      // Aquí cargarías las notificaciones desde tu backend
+      // Por ahora usaremos datos de ejemplo
+      notifications = [
+        { id: 1, message: 'Nueva cita programada para mañana', read: false, date: '2024-03-20 10:00' },
+        { id: 2, message: 'Recordatorio: Reunión de personal', read: false, date: '2024-03-20 09:00' }
+      ];
+      updateNotificationCount();
+      updateNotificationsList();
+    }
+
+    function updateNotificationCount() {
+      const unreadCount = notifications.filter(n => !n.read).length;
+      $('#notificationCount').text(unreadCount);
+    }
+
+    function updateNotificationsList() {
+      const list = $('#notificationsList');
+      list.empty();
+
+      if (notifications.length === 0) {
+        list.append('<p class="text-center text-muted">No hay notificaciones</p>');
+        return;
+      }
+
+      notifications.forEach(notification => {
+        list.append(`
+                <div class="notification-item ${notification.read ? 'read' : 'unread'} p-2 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="mb-1">${notification.message}</p>
+                        <small class="text-muted">${notification.date}</small>
+                    </div>
+                </div>
+            `);
+      });
+    }
+
+    // Event Listeners
+    $('#notificationsBtn').click(function (e) {
+      e.preventDefault();
+      $('#notificationsModal').modal('show');
+    });
+
+    $('#markAllRead').click(function () {
+      notifications.forEach(n => n.read = true);
+      updateNotificationCount();
+      updateNotificationsList();
+    });
+
+    // Inicializar el botón de logout
+    if (window.initLogoutButton) {
+        window.initLogoutButton();
+    }
+
+    // Load dashboard stats
+    async function loadStats() {
+      try {
+        console.log('Iniciando carga de estadísticas...');
+        
+        // Load total clients
+        console.log('Cargando clientes...');
+        const clientesResponse = await Cliente.getAll();
+        console.log('Clientes response:', clientesResponse);
+        const clientes = Array.isArray(clientesResponse) ? clientesResponse : (clientesResponse.data || []);
+        $('#totalClientes').text(clientes.length);
+
+        // Load today's appointments
+        console.log('Cargando citas...');
+        const citasResponse = await Cita.getAll();
+        console.log('Citas response:', citasResponse);
+        const citas = Array.isArray(citasResponse) ? citasResponse : (citasResponse.data || []);
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+        
+        // Fix date comparison - convert both dates to same format
+        const citasHoy = citas.filter(cita => {
+          const citaDate = new Date(cita.fecha);
+          const citaDateStr = citaDate.toISOString().split('T')[0];
+          return citaDateStr === todayStr;
+        });
+        $('#totalCitas').text(citasHoy.length);
+
+        // Load active treatments
+        console.log('Cargando tratamientos...');
+        const tratamientosResponse = await Tratamiento.getAll();
+        console.log('Tratamientos response:', tratamientosResponse);
+        const tratamientos = Array.isArray(tratamientosResponse) ? tratamientosResponse : (tratamientosResponse.data || []);
+        $('#totalTratamientos').text(tratamientos.length);
+
+        // Load recent appointments
+        const citasRecientes = citas
+          .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+          .slice(0, 5);
+
+        const tbody = $('#citasRecientes');
+        tbody.empty();
+
+        function formatFecha(fecha) {
+          // Soporta formatos tipo 'Mon, 20 Nov 2023 00:00:00 GMT' y '2023-11-20'
+          const d = new Date(fecha);
+          if (isNaN(d)) return fecha;
+          return d.toLocaleDateString('es-ES');
+        }
+        function formatHora(hora) {
+          // Soporta formatos tipo '18:00:00' o '18:00'
+          if (!hora) return '';
+          return hora.length > 5 ? hora.substring(0, 5) : hora;
+        }
+
+        // Process appointments synchronously to avoid async issues
+        citasRecientes.forEach(cita => {
+          // Use the fields that come directly from the API response
+          const clienteNombre = cita.cliente_nombre || 'Cliente no encontrado';
+          const tratamientoNombre = cita.tratamiento_nombre || 'Tratamiento no encontrado';
+          
+          tbody.append(`
+            <tr>
+                <td>${cita.id_cita}</td>
+                <td>${clienteNombre}</td>
+                <td>${tratamientoNombre}</td>
+                <td>${formatFecha(cita.fecha)}</td>
+                <td>${formatHora(cita.hora)}</td>
+                <td><span class="badge badge-${getEstadoBadgeClass(cita.estado)}">
+                    <i class="fas fa-${getEstadoIcon(cita.estado)}"></i>
+                    ${getEstadoText(cita.estado)}
+                </span></td>
+            </tr>
+          `);
+        });
+        
+        console.log('Estadísticas cargadas exitosamente');
+      } catch (error) {
+        console.error('Error detallado al cargar estadísticas:', error);
+        showError('Error al cargar las estadísticas: ' + error.message);
+      }
+    }
+
+    // Get badge class based on appointment status
+    function getEstadoBadgeClass(estado) {
+      switch (estado.toLowerCase()) {
+        case 'pendiente':
+          return 'warning';
+        case 'confirmada':
+          return 'info';
+        case 'completada':
+          return 'success';
+        case 'cancelada':
+          return 'danger';
+        default:
+          return 'secondary';
+      }
+    }
+
+    // Get icon based on appointment status
+    function getEstadoIcon(estado) {
+      switch (estado.toLowerCase()) {
+        case 'pendiente':
+          return 'clock';
+        case 'confirmada':
+          return 'check-double';
+        case 'completada':
+          return 'check-circle';
+        case 'cancelada':
+          return 'times-circle';
+        default:
+          return 'question-circle';
+      }
+    }
+
+    // Get formatted text based on appointment status
+    function getEstadoText(estado) {
+      const estados = {
+        'pendiente': 'Pendiente',
+        'confirmada': 'Confirmada',
+        'completada': 'Completada',
+        'cancelada': 'Cancelada'
+      };
+      return estados[estado.toLowerCase()] || estado;
+    }
+
+    // Refresh stats
+    $('#notificationsBtn').click(loadStats);
+
+    // Initial load
+    loadStats();
+    loadNotifications();
+  </script>
+</body>
+
+</html>

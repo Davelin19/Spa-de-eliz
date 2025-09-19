@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="img/logo.png" rel="icon">
+    <title>Armony Stetic - Portal Cliente</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/notifications.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+    <style>
+        body {
+            background: #70e1f0;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(112, 225, 240, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(112, 225, 240, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(112, 225, 240, 0.05) 0%, transparent 60%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(45deg, rgba(112, 225, 240, 0.05) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(112, 225, 240, 0.05) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(112, 225, 240, 0.05) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(112, 225, 240, 0.05) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            z-index: -1;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, #70e1f0, #50c1d0) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+        }
+
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-action {
+            background: linear-gradient(45deg, #70e1f0, #50c1d0);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(45deg, #50c1d0, #40a1b0);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(112, 225, 240, 0.3);
+            color: white;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #70e1f0, #50c1d0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+    </style>
+    <!-- Agregar fuente Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top me-2">
+                Armony Stetic
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#perfil">Mi Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#citas">Mis Citas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="historial-cliente.html">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutClienteBtn">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-3">¡Bienvenido/a, <span id="clienteNombre">Cliente</span>!</h1>
+                    <p class="lead mb-0">Gestiona tus citas y servicios de belleza desde tu panel personal.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-primary">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stats-value text-primary" id="citasCompletadas">0</div>
+                    <div class="stats-label">Citas Completadas</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-warning">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stats-value text-warning" id="citasPendientes">0</div>
+                    <div class="stats-label">Citas Pendientes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-success">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="stats-value text-success" id="tratamientosRealizados">0</div>
+                    <div class="stats-label">Tratamientos</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-icon text-info">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stats-value text-info" id="gastoTotal">$0.00</div>
+                    <div class="stats-label">Gasto Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions Section -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="action-card">
+                    <h5 class="mb-3"><i class="fas fa-calendar-plus me-2"></i>Agendar Nueva Cita</h5>
+                    <p class="text-muted mb-3">Reserva tu próximo tratamiento de belleza</p>
+                    <button class="btn btn-action" id="agendarCitaBtn">
+                        <i class="fas fa-plus"></i> Agendar Cita
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="action-card">
+                    <h5 class="mb-3"><i class="fas fa-user-edit me-2"></i>Actualizar Perfil</h5>
+                    <p class="text-muted mb-3">Mantén tu información personal actualizada</p>
+                    <button class="btn btn-action" id="editarPerfilBtn">
+                        <i class="fas fa-edit"></i> Editar Perfil
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section" id="perfil">
+            <h3 class="mb-4"><i class="fas fa-user-circle me-2"></i>Mi Información Personal</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Nombre:</strong> <span id="perfilNombre">-</span></p>
+                    <p><strong>Email:</strong> <span id="perfilEmail">-</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Teléfono:</strong> <span id="perfilTelefono">-</span></p>
+                    <p><strong>Dirección:</strong> <span id="perfilDireccion">-</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Appointments -->
+        <div class="table-container" id="citas">
+            <h3 class="mb-4"><i class="fas fa-calendar-alt me-2"></i>Mis Próximas Citas</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Tratamiento</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="citasTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No hay citas programadas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agendar Cita -->
+    <div class="modal fade" id="agendarCitaModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border-radius: 15px 15px 0 0; border: none;">
+                    <h5 class="modal-title" style="font-weight: 600; display: flex; align-items: center;">
+                        <i class="fas fa-calendar-plus me-2" style="font-size: 1.2em;"></i>
+                        Agendar Nueva Cita
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 2rem; background-color: #f8f9fa;">
+                    <div class="text-center mb-4">
+                        <div class="appointment-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
+                            <i class="fas fa-calendar-check" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <p class="text-muted mb-0">Reserva tu próximo tratamiento de belleza</p>
+                    </div>
+                    
+                    <form id="agendarCitaForm">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="tratamiento" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-spa me-2 text-primary"></i>Tratamiento
+                                    </label>
+                                    <select class="form-control" id="tratamiento" required
+                                            style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                            onfocus="this.style.borderColor='#28a745'; this.style.boxShadow='0 0 0 0.2rem rgba(40, 167, 69, 0.25)'"
+                                            onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                        <option value="">Seleccione un tratamiento</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="duracion" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-clock me-2 text-info"></i>Duración (minutos)
+                                    </label>
+                                    <input type="number" class="form-control" id="duracion" readonly
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; font-size: 0.95rem; background-color: #f8f9fa;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="precio" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-dollar-sign me-2 text-success"></i>Precio
+                                    </label>
+                                    <input type="text" class="form-control" id="precio" readonly
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; font-size: 0.95rem; background-color: #f8f9fa;">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="fecha" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-calendar-alt me-2 text-info"></i>Fecha
+                                    </label>
+                                    <input type="date" class="form-control" id="fecha" required
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#28a745'; this.style.boxShadow='0 0 0 0.2rem rgba(40, 167, 69, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="hora" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-clock me-2 text-warning"></i>Hora
+                                    </label>
+                                    <select class="form-control" id="hora" required
+                                            style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                            onfocus="this.style.borderColor='#28a745'; this.style.boxShadow='0 0 0 0.2rem rgba(40, 167, 69, 0.25)'"
+                                            onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                        <option value="">Seleccione una hora</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                        <option value="16:00">04:00 PM</option>
+                                        <option value="17:00">05:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="observaciones" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-comment me-2 text-success"></i>Observaciones
+                                    </label>
+                                    <textarea class="form-control" id="observaciones" rows="3"
+                                              style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem; resize: vertical;"
+                                              onfocus="this.style.borderColor='#28a745'; this.style.boxShadow='0 0 0 0.2rem rgba(40, 167, 69, 0.25)'"
+                                              onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'"
+                                              placeholder="Comentarios adicionales sobre la cita..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="padding: 1.5rem 2rem; background-color: white; border-radius: 0 0 15px 15px; border-top: 1px solid #dee2e6;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: none; background-color: #6c757d; transition: all 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#5a6268'; this.style.transform='translateY(-2px)'"
+                            onmouseout="this.style.backgroundColor='#6c757d'; this.style.transform='translateY(0)'">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmarCitaBtn"
+                            style="border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: none; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(40, 167, 69, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <i class="fas fa-calendar-check me-2"></i>Agendar Cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Perfil -->
+    <div class="modal fade" id="editarPerfilModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px 15px 0 0; border: none;">
+                    <h5 class="modal-title" style="font-weight: 600; display: flex; align-items: center;">
+                        <i class="fas fa-user-edit me-2" style="font-size: 1.2em;"></i>
+                        Editar Mi Perfil
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 1;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 2rem; background-color: #f8f9fa;">
+                    <div class="text-center mb-4">
+                        <div class="profile-avatar-large" style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                            <i class="fas fa-user" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <p class="text-muted mb-0">Actualiza tu información personal</p>
+                    </div>
+                    
+                    <form id="editarPerfilForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editNombre" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-user me-2 text-primary"></i>Nombre Completo
+                                    </label>
+                                    <input type="text" class="form-control" id="editNombre" required 
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editEmail" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-envelope me-2 text-info"></i>Correo Electrónico
+                                    </label>
+                                    <input type="email" class="form-control" id="editEmail" required 
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editTelefono" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-phone me-2 text-success"></i>Teléfono
+                                    </label>
+                                    <input type="tel" class="form-control" id="editTelefono" required 
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editDireccion" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        <i class="fas fa-map-marker-alt me-2 text-warning"></i>Dirección
+                                    </label>
+                                    <textarea class="form-control" id="editDireccion" rows="2" 
+                                              style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem; resize: vertical;"
+                                              onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                              onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr style="margin: 2rem 0; border-color: #dee2e6;">
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 style="color: #495057; font-weight: 600; margin-bottom: 1rem;">
+                                    <i class="fas fa-lock me-2 text-danger"></i>Cambiar Contraseña (Opcional)
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editPassword" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        Nueva Contraseña
+                                    </label>
+                                    <input type="password" class="form-control" id="editPassword" 
+                                           placeholder="Dejar en blanco para mantener la actual"
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="editConfirmPassword" class="form-label" style="font-weight: 600; color: #495057; margin-bottom: 0.5rem;">
+                                        Confirmar Contraseña
+                                    </label>
+                                    <input type="password" class="form-control" id="editConfirmPassword" 
+                                           placeholder="Confirmar nueva contraseña"
+                                           style="border-radius: 10px; border: 2px solid #e9ecef; padding: 0.75rem 1rem; transition: all 0.3s ease; font-size: 0.95rem;"
+                                           onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 0.2rem rgba(102, 126, 234, 0.25)'"
+                                           onblur="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="padding: 1.5rem 2rem; background-color: white; border-radius: 0 0 15px 15px; border-top: 1px solid #dee2e6;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" 
+                            style="border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: none; background-color: #6c757d; transition: all 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#5a6268'; this.style.transform='translateY(-2px)'"
+                            onmouseout="this.style.backgroundColor='#6c757d'; this.style.transform='translateY(0)'">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="guardarPerfilBtn" 
+                            style="border-radius: 25px; padding: 0.75rem 2rem; font-weight: 600; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones -->
+    <div id="notificationsContainer"></div>
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils/notifications.js"></script>
+    <script src="js/utils/auth-cliente.js"></script>
+    <script type="module" src="js/models/Cliente.js"></script>
+    <script type="module" src="js/models/Cita.js"></script>
+    <script type="module" src="js/models/Tratamiento.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Verificar autenticación
+            const clienteData = sessionStorage.getItem('clienteData');
+            if (!clienteData) {
+                window.location.replace('login.html');
+                return;
+            }
+
+            const cliente = JSON.parse(clienteData);
+            const API_URL = 'http://localhost:5000';
+
+            // Mostrar información del cliente
+            $('#clienteNombre').text(cliente.nombre);
+            $('#perfilNombre').text(cliente.nombre);
+            $('#perfilEmail').text(cliente.email);
+            $('#perfilTelefono').text(cliente.telefono || 'No especificado');
+            $('#perfilDireccion').text(cliente.direccion || 'No especificada');
+
+            // Cargar estadísticas del cliente
+            async function loadClienteStats() {
+                try {
+                    const response = await fetch(`${API_URL}/api/clientes/${cliente.id}/stats`);
+                    if (response.ok) {
+                        const stats = await response.json();
+                        $('#citasCompletadas').text(stats.citasCompletadas || 0);
+                        $('#citasPendientes').text(stats.citasPendientes || 0);
+                        $('#tratamientosRealizados').text(stats.tratamientosRealizados || 0);
+                        $('#gastoTotal').text(`$${(stats.gastoTotal || 0).toLocaleString('es-CO')} COP`);
+                    }
+                } catch (error) {
+                    console.error('Error al cargar estadísticas:', error);
+                    showError('Error al cargar las estadísticas');
+                }
+            }
+
+            // Cargar citas del cliente
+            async function loadClienteCitas() {
+                try {
+                    const response = await fetch(`${API_URL}/api/citas/cliente/${cliente.id}`);
+                    if (response.ok) {
+                        const citas = await response.json();
+                        const tbody = $('#citasTableBody');
+                        tbody.empty();
+
+                        if (citas.length === 0) {
+                            tbody.append('<tr><td colspan="6" class="text-center text-muted">No hay citas programadas</td></tr>');
+                        } else {
+                            citas.forEach(cita => {
+                                const estadoBadge = cita.estado === 'confirmada' ? 'success' : 
+                                                  cita.estado === 'pendiente' ? 'warning' : 'secondary';
+                                const precio = cita.precio ? `$${cita.precio.toLocaleString('es-CO')} COP` : 'No disponible';
+                                tbody.append(`
+                                    <tr>
+                                        <td>${new Date(cita.fecha).toLocaleDateString()}</td>
+                                        <td>${cita.hora}</td>
+                                        <td>${cita.nombre_tratamiento || 'No especificado'}</td>
+                                        <td>${precio}</td>
+                                        <td><span class="badge bg-${estadoBadge}">${cita.estado}</span></td>
+                                        <td>
+                                            ${cita.estado === 'pendiente' ? 
+                                                `<button class="btn btn-sm btn-primary me-1" onclick="modificarCita(${cita.id_cita})">Modificar</button>
+                                                 <button class="btn btn-sm btn-danger" onclick="cancelarCita(${cita.id_cita})">Cancelar</button>` : 
+                                                '-'
+                                            }
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error al cargar citas:', error);
+                }
+            }
+
+            // Variable global para almacenar tratamientos
+            let tratamientosGlobal = [];
+
+            // Cargar tratamientos para el selector
+            async function loadTratamientos() {
+                try {
+                    const response = await fetch(`${API_URL}/api/tratamientos`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        // La API devuelve un objeto con la propiedad 'data' que contiene el array
+                        tratamientosGlobal = data.data || [];
+                        const select = $('#tratamiento');
+                        select.empty().append('<option value="">Seleccione un tratamiento</option>');
+                        tratamientosGlobal.forEach(tratamiento => {
+                            if (tratamiento.estado === 'activo') {
+                                select.append(`<option value="${tratamiento.id_tratamiento}">${tratamiento.nombre} - $${tratamiento.precio}</option>`);
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al cargar tratamientos:', error);
+                }
+            }
+
+            // Event listeners
+            $('#logoutClienteBtn').click(function(e) {
+                e.preventDefault();
+                
+                // Usar la nueva función de confirmación
+                if (typeof window.showConfirmation === 'function') {
+                    window.showConfirmation(
+                        '¿Está seguro que desea cerrar sesión?',
+                        'Confirmar cierre de sesión',
+                        function() {
+                            // Confirmar - proceder con logout
+                            if (typeof window.logoutCliente === 'function') {
+                                window.logoutCliente();
+                            } else {
+                                // Fallback - lógica original
+                                sessionStorage.removeItem('clienteData');
+                                window.location.replace('index.html');
+                            }
+                        },
+                        function() {
+                            // Cancelar - no hacer nada
+                            console.log('Logout cancelado');
+                        }
+                    );
+                } else {
+                    // Fallback - usar confirm nativo
+                    if (typeof window.logoutCliente === 'function') {
+                        // Use global logout function for clients
+                        logoutCliente();
+                    } else {
+                        // Fallback
+                        if (confirm('¿Está seguro que desea cerrar sesión?')) {
+                            sessionStorage.removeItem('clienteData');
+                            window.location.replace('index.html');
+                        }
+                    }
+                }
+            });
+
+            $('#agendarCitaBtn').click(function() {
+                // Limpiar campos al abrir el modal
+                $('#agendarCitaForm')[0].reset();
+                $('#duracion').val('');
+                $('#precio').val('');
+                
+                // Restaurar el estado original del modal
+                $('#confirmarCitaBtn').text('Confirmar Cita').off('click').on('click', async function() {
+                    await confirmarNuevaCita();
+                });
+                $('#agendarCitaModal .modal-title').text('Agendar Nueva Cita');
+                
+                $('#agendarCitaModal').modal('show');
+            });
+
+            // Event listener para cambio de tratamiento
+            $(document).on('change', '#tratamiento', function() {
+                const tratamientoId = $(this).val();
+                if (tratamientoId) {
+                    const tratamiento = tratamientosGlobal.find(t => t.id_tratamiento == tratamientoId);
+                    if (tratamiento) {
+                        $('#duracion').val(tratamiento.duracion);
+                        $('#precio').val('$' + parseFloat(tratamiento.precio).toLocaleString('es-CO'));
+                    }
+                } else {
+                    $('#duracion').val('');
+                    $('#precio').val('');
+                }
+            });
+
+            $('#editarPerfilBtn').click(function() {
+                cargarDatosPerfilModal();
+                $('#editarPerfilModal').modal('show');
+            });
+
+            $('#confirmarCitaBtn').click(async function() {
+                await confirmarNuevaCita();
+            });
+
+            // Función para confirmar nueva cita
+            async function confirmarNuevaCita() {
+                const tratamientoId = $('#tratamiento').val();
+                const fecha = $('#fecha').val();
+                const hora = $('#hora').val();
+                const observaciones = $('#observaciones').val();
+
+                if (!tratamientoId || !fecha || !hora) {
+                    showError('Por favor complete todos los campos requeridos');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/api/citas`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_cliente: cliente.id,
+                            id_tratamiento: tratamientoId,
+                            fecha: fecha,
+                            hora: hora,
+                            observaciones: observaciones,
+                            estado: 'pendiente'
+                        })
+                    });
+
+                    if (response.ok) {
+                        showSuccess('Cita agendada exitosamente');
+                        $('#agendarCitaModal').modal('hide');
+                        $('#agendarCitaForm')[0].reset();
+                        loadClienteCitas();
+                        loadClienteStats();
+                    } else {
+                        const error = await response.json();
+                        showError(error.message || 'Error al agendar la cita');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error al agendar la cita');
+                }
+            }
+
+            // Función global para cancelar citas
+            window.cancelarCita = async function(citaId) {
+                if (confirm('¿Está seguro que desea cancelar esta cita?')) {
+                    try {
+                        const response = await fetch(`${API_URL}/api/citas/${citaId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                estado: 'cancelada'
+                            })
+                        });
+
+                        if (response.ok) {
+                            showSuccess('Cita cancelada exitosamente');
+                            loadClienteCitas();
+                            loadClienteStats();
+                        } else {
+                            showError('Error al cancelar la cita');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showError('Error al cancelar la cita');
+                    }
+                }
+            };
+
+            // Función global para modificar citas
+            window.modificarCita = async function(citaId) {
+                try {
+                    const response = await fetch(`${API_URL}/api/citas/${citaId}`);
+                    if (response.ok) {
+                        const cita = await response.json();
+                        
+                        // Cargar los datos de la cita en el modal
+                        $('#tratamiento').val(cita.id_tratamiento);
+                        $('#fecha').val(cita.fecha);
+                        $('#hora').val(cita.hora.substring(0, 5)); // Formato HH:MM
+                        $('#observaciones').val(cita.observaciones || '');
+                        
+                        // Actualizar campos de duración y precio
+                        const tratamiento = tratamientosGlobal.find(t => t.id_tratamiento == cita.id_tratamiento);
+                        if (tratamiento) {
+                            $('#duracion').val(tratamiento.duracion);
+                            $('#precio').val('$' + parseFloat(tratamiento.precio).toLocaleString('es-CO'));
+                        }
+                        
+                        // Cambiar el botón y título del modal
+                        $('#confirmarCitaBtn').text('Actualizar Cita').off('click').on('click', async function() {
+                            await actualizarCita(citaId);
+                        });
+                        
+                        $('#agendarCitaModal .modal-title').text('Modificar Cita');
+                        $('#agendarCitaModal').modal('show');
+                    } else {
+                        showError('Error al cargar los datos de la cita');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error al cargar los datos de la cita');
+                }
+            };
+
+            // Función para actualizar una cita existente
+            async function actualizarCita(citaId) {
+                const tratamientoId = $('#tratamiento').val();
+                const fecha = $('#fecha').val();
+                const hora = $('#hora').val();
+                const observaciones = $('#observaciones').val();
+
+                if (!tratamientoId || !fecha || !hora) {
+                    showError('Por favor complete todos los campos requeridos');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/api/citas/${citaId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_tratamiento: tratamientoId,
+                            fecha: fecha,
+                            hora: hora,
+                            observaciones: observaciones
+                        })
+                    });
+
+                    if (response.ok) {
+                        showSuccess('Cita actualizada exitosamente');
+                        $('#agendarCitaModal').modal('hide');
+                        $('#agendarCitaForm')[0].reset();
+                        
+                        // Restaurar el botón original
+                        $('#confirmarCitaBtn').text('Confirmar Cita').off('click').on('click', async function() {
+                            await confirmarNuevaCita();
+                        });
+                        $('#agendarCitaModal .modal-title').text('Agendar Nueva Cita');
+                        
+                        loadClienteCitas();
+                        loadClienteStats();
+                    } else {
+                        const error = await response.json();
+                        showError(error.message || 'Error al actualizar la cita');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error al actualizar la cita');
+                }
+            }
+
+            // Función para cargar datos del perfil en el modal
+            function cargarDatosPerfilModal() {
+                $('#editNombre').val(cliente.nombre || '');
+                $('#editEmail').val(cliente.email || '');
+                $('#editTelefono').val(cliente.telefono || '');
+                $('#editDireccion').val(cliente.direccion || '');
+                $('#editPassword').val('');
+                $('#editConfirmPassword').val('');
+            }
+
+            // Event listener para guardar cambios del perfil
+            $('#guardarPerfilBtn').click(async function() {
+                const nombre = $('#editNombre').val().trim();
+                const email = $('#editEmail').val().trim();
+                const telefono = $('#editTelefono').val().trim();
+                const direccion = $('#editDireccion').val().trim();
+                const password = $('#editPassword').val();
+                const confirmPassword = $('#editConfirmPassword').val();
+
+                // Validaciones
+                if (!nombre || !email || !telefono) {
+                    showError('Por favor complete todos los campos requeridos');
+                    return;
+                }
+
+                if (password && password !== confirmPassword) {
+                    showError('Las contraseñas no coinciden');
+                    return;
+                }
+
+
+
+                try {
+                    const updateData = {
+                        nombre: nombre,
+                        email: email,
+                        telefono: telefono,
+                        direccion: direccion
+                    };
+
+                    if (password) {
+                        updateData.password = password;
+                    }
+
+                    const response = await fetch(`${API_URL}/api/clientes/${cliente.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updateData)
+                    });
+
+                    if (response.ok) {
+                        const updatedCliente = await response.json();
+                        
+                        // Actualizar datos en sessionStorage
+                        const clienteData = {
+                            ...cliente,
+                            nombre: updatedCliente.nombre,
+                            email: updatedCliente.email,
+                            telefono: updatedCliente.telefono,
+                            direccion: updatedCliente.direccion
+                        };
+                        sessionStorage.setItem('clienteData', JSON.stringify(clienteData));
+                        
+                        // Actualizar la interfaz
+                        $('#clienteNombre').text(updatedCliente.nombre);
+                        $('#perfilNombre').text(updatedCliente.nombre);
+                        $('#perfilEmail').text(updatedCliente.email);
+                        $('#perfilTelefono').text(updatedCliente.telefono);
+                        $('#perfilDireccion').text(updatedCliente.direccion || 'No especificada');
+                        
+                        // Actualizar variable cliente
+                        Object.assign(cliente, clienteData);
+                        
+                        showSuccess('Perfil actualizado exitosamente');
+                        $('#editarPerfilModal').modal('hide');
+                    } else {
+                        const error = await response.json();
+                        showError(error.message || 'Error al actualizar el perfil');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Error al actualizar el perfil');
+                }
+            });
+
+            // Cargar datos iniciales
+            loadClienteStats();
+            loadClienteCitas();
+            loadTratamientos();
+        });
+    </script>
+</body>
+
+</html>
